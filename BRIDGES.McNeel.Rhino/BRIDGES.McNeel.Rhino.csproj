@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <Title>BRIDGES.McNeel.Rhino</Title>
+	  <Authors>École des Ponts ParisTech</Authors>
+	  <Company>École des Ponts ParisTech</Company>
+
+	  <Description>Tools from the Build'in platform for the integration of BRIDGES framework within Rhino.</Description>
+	  
+	  <TargetFramework>net4.8</TargetFramework>
+	  <OutputType>Library</OutputType>
+
+	  <RepositoryUrl>https://github.com/bridges-libraries/BRIDGES.McNeel.Rhino</RepositoryUrl>
+	  <RepositoryType>git</RepositoryType>
+
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	  <IncludeSymbols>true</IncludeSymbols>
+
+	  <PackageId>BRIDGES.McNeel.Rhino</PackageId>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BRIDGES" Version="0.1.0" />
+    <PackageReference Include="RhinoCommon" Version="7.29.23107.3001" />
+  </ItemGroup>
+
+</Project>
