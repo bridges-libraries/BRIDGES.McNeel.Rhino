@@ -6,6 +6,7 @@ using RH_Geo = Rhino.Geometry;
 using Euc3D = BRIDGES.Geometry.Euclidean3D;
 
 using Fv = BRIDGES.DataStructures.PolyhedralMeshes.FaceVertexMesh;
+using System.Reflection;
 
 
 namespace BRIDGES.McNeel.Rhino.Extensions.Geometry.Euclidean3D
@@ -95,10 +96,11 @@ namespace BRIDGES.McNeel.Rhino.Extensions.Geometry.Euclidean3D
             // Add faces 
             foreach (RH_Geo.MeshNgon ngon in source.GetNgonAndFacesEnumerable())
             {
-                uint[] indices = ngon.BoundaryVertexIndexList();
-
-                List<Fv.Vertex<Euc3D.Point>> vertices = new List<Fv.Vertex<Euc3D.Point>>(indices.Length);
-                for (int i = 0; i < indices.Length; i++) { vertices[i] = target.GetVertex((int)indices[i]); }
+                List<Fv.Vertex<Euc3D.Point>> vertices = new List<Fv.Vertex<Euc3D.Point>>(ngon.BoundaryVertexCount);
+                for (int i = 0; i < ngon.BoundaryVertexCount; i++) 
+                {
+                    vertices.Add(target.GetVertex(Convert.ToInt32(ngon[i]))); 
+                }
 
                 target.AddFace(vertices);
             }

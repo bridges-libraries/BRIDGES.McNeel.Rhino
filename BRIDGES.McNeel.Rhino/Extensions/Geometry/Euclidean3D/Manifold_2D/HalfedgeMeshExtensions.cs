@@ -41,23 +41,28 @@ namespace BRIDGES.McNeel.Rhino.Extensions.Geometry.Euclidean3D
             {
                 IReadOnlyList<He.Vertex<Euc3D.Point>> vertices = face.FaceVertices();
 
-                int[] i_Vertices = new int[vertices.Count];
-                for (int i = 0; i < vertices.Count; i++) { i_Vertices[i] = vertices[i].Index; }
-
-                if (i_Vertices.Length < 3) { throw new InvalidOperationException("The number of face vertices must be larger than three."); }
-                else if (i_Vertices.Length == 3) { target.Faces.AddFace(i_Vertices[0], i_Vertices[1], i_Vertices[2]); }
-                else if (i_Vertices.Length == 4) { target.Faces.AddFace(i_Vertices[0], i_Vertices[1], i_Vertices[2], i_Vertices[3]); }
+                if (vertices.Count < 3) { throw new InvalidOperationException("The number of face vertices must be larger than three."); }
+                else if (vertices.Count == 3) { target.Faces.AddFace(vertices[0].Index, vertices[1].Index, vertices[2].Index); }
+                else if (vertices.Count == 4) { target.Faces.AddFace(vertices[0].Index, vertices[1].Index, vertices[2].Index, vertices[3].Index); }
                 else
                 {
+
+                    int[] i_Vertices = new int[vertices.Count + 1];
                     Euc3D.Point barycentre = new Euc3D.Point(0d, 0d, 0d);
-                    for (int i = 0; i < vertices.Count; i++) { barycentre += vertices[i].Position; }
+
+                    for (int i = 0; i < vertices.Count; i++) 
+                    { 
+                        barycentre += vertices[i].Position;
+                        i_Vertices[i] = vertices[i].Index;
+                    }
                     barycentre /= vertices.Count;
 
                     int i_barycentre = target.Vertices.Add(barycentre.X, barycentre.Y, barycentre.Z);
+                    i_Vertices[vertices.Count] = i_barycentre;
 
                     int[] i_Faces = new int[vertices.Count];
-                    for (int i = 0; i < vertices.Count - 1; i++) { i_Faces[i] = target.Faces.AddFace(i_barycentre, i_Faces[i], i_Faces[i + 1]); }
-                    i_Faces[vertices.Count - 1] = target.Faces.AddFace(i_barycentre, i_Faces[vertices.Count - 1], i_Faces[0]);
+                    for (int i = 0; i < vertices.Count - 1; i++) { i_Faces[i] = target.Faces.AddFace(i_barycentre, i_Vertices[i], i_Vertices[i + 1]); }
+                    i_Faces[vertices.Count - 1] = target.Faces.AddFace(i_barycentre, i_Vertices[vertices.Count - 1], i_Vertices[0]);
 
                     RH_Geo.MeshNgon ngon = RH_Geo.MeshNgon.Create(i_Vertices, i_Faces);
                     target.Ngons.AddNgon(ngon);
@@ -117,7 +122,7 @@ namespace BRIDGES.McNeel.Rhino.Extensions.Geometry.Euclidean3D
                 uint[] indices = ngon.BoundaryVertexIndexList();
 
                 List<He.Vertex<Euc3D.Point>> vertices = new List<He.Vertex<Euc3D.Point>>(indices.Length);
-                for (int i = 0; i < indices.Length; i++) { vertices[i] = target.GetVertex((int)indices[i]); }
+                for (int i = 0; i < indices.Length; i++) { vertices.Add(target.GetVertex((int)indices[i])); }
 
                 target.AddFace(vertices);
             }
