@@ -23,7 +23,7 @@ namespace BRIDGES.McNeel.Rhino.Extensions.Geometry.Euclidean3D
         /// <returns> <see langword="true"/> if the cast succeeded, <see langword="false"/> otherwise. </returns>
         public static void CastTo(this Euc3D.Ray source, out RH_Geo.Ray3d target)
         {
-            source.StartPoint.CastTo(out RH_Geo.Point3d position);
+            source.Origin.CastTo(out RH_Geo.Point3d position);
             source.Axis.CastTo(out RH_Geo.Vector3d axis);
 
             target = new RH_Geo.Ray3d(position, axis);

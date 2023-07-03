@@ -22,7 +22,7 @@ namespace BRIDGES.McNeel.Rhino.Extensions.Geometry.Euclidean3D
         /// <param name="target"> Plane from the <see cref="Rhino"/> framework to cast to. </param>
         /// <returns> <see langword="true"/> if the cast succeeded, <see langword="false"/> otherwise. </returns>
         /// <exception cref="InvalidCastException"> The third axis Z is not orthogonal to the X and Y axes. </exception>
-        public static void ConvertTo(this Euc3D.Frame source, out RH_Geo.Plane target)
+        public static void CastTo(this Euc3D.Frame source, out RH_Geo.Plane target)
         {
             if (!Euc3D.Vector.AreOrthogonal(source.XAxis, source.ZAxis) || !Euc3D.Vector.AreOrthogonal(source.YAxis, source.ZAxis))
             {
@@ -48,12 +48,12 @@ namespace BRIDGES.McNeel.Rhino.Extensions.Geometry.Euclidean3D
         /// <param name="source"> Array of frame from the <see cref="BRIDGES"/> framework to cast. </param>
         /// <param name="target"> Array of plane from the <see cref="Rhino"/> framework to cast to. </param>
         /// <returns> <see langword="true"/> if the cast succeeded, <see langword="false"/> otherwise. </returns>
-        public static void ConvertTo(this Euc3D.Frame[] source, out RH_Geo.Plane[] target)
+        public static void CastTo(this Euc3D.Frame[] source, out RH_Geo.Plane[] target)
         {
             target = new RH_Geo.Plane[source.Length];
             for (int i = 0; i < source.Length; i++)
             {
-                source[i].ConvertTo(out target[i]);
+                source[i].CastTo(out target[i]);
             }
         }
 
@@ -66,13 +66,13 @@ namespace BRIDGES.McNeel.Rhino.Extensions.Geometry.Euclidean3D
         /// <param name="source"> List of frame from the <see cref="BRIDGES"/> framework to cast. </param>
         /// <param name="target"> List of plane from the <see cref="Rhino"/> framework to cast to. </param>
         /// <returns> <see langword="true"/> if the cast succeeded, <see langword="false"/> otherwise. </returns>
-        public static void ConvertTo(this List<Euc3D.Frame> source, out List<RH_Geo.Plane> target)
+        public static void CastTo(this List<Euc3D.Frame> source, out List<RH_Geo.Plane> target)
         {
             target = new List<RH_Geo.Plane>(source.Count);
 
             for (int i = 0; i < source.Count; i++)
             {
-                source[i].ConvertTo(out RH_Geo.Plane tmp);
+                source[i].CastTo(out RH_Geo.Plane tmp);
                 target.Add(tmp);
             }
         }
@@ -92,7 +92,7 @@ namespace BRIDGES.McNeel.Rhino.Extensions.Geometry.Euclidean3D
         /// <param name="source"> Plane from the <see cref="Rhino"/> framework to cast. </param>
         /// <param name="target"> Frame from the <see cref="BRIDGES"/> framework to cast to. </param>
         /// <returns> <see langword="true"/> if the cast succeeded, <see langword="false"/> otherwise. </returns>
-        public static void CastTo(this RH_Geo.Plane source, out Euc3D.Frame target)
+        public static void ConvertTo(this RH_Geo.Plane source, out Euc3D.Frame target)
         {
             source.Origin.CastTo(out Euc3D.Point origin);
             source.XAxis.CastTo(out Euc3D.Vector uAxis);
@@ -111,12 +111,12 @@ namespace BRIDGES.McNeel.Rhino.Extensions.Geometry.Euclidean3D
         /// <param name="source"> Array of plane from the <see cref="Rhino"/> framework to cast. </param>
         /// <param name="target"> Array of frame from the <see cref="BRIDGES"/> framework to cast to. </param>
         /// <returns> <see langword="true"/> if the cast succeeded, <see langword="false"/> otherwise. </returns>
-        public static void CastTo(this RH_Geo.Plane[] source, out Euc3D.Frame[] target)
+        public static void ConvertTo(this RH_Geo.Plane[] source, out Euc3D.Frame[] target)
         {
             target = new Euc3D.Frame[source.Length];
             for (int i = 0; i < source.Length; i++)
             {
-                source[i].CastTo(out target[i]);
+                source[i].ConvertTo(out target[i]);
             }
         }
 
@@ -129,13 +129,13 @@ namespace BRIDGES.McNeel.Rhino.Extensions.Geometry.Euclidean3D
         /// <param name="source"> List of plane from the <see cref="Rhino"/> framework to cast. </param>
         /// <param name="target"> List of frame from the <see cref="BRIDGES"/> framework to cast to. </param>
         /// <returns> <see langword="true"/> if the cast succeeded, <see langword="false"/> otherwise. </returns>
-        public static void CastTo(this List<RH_Geo.Plane> source, out List<Euc3D.Frame> target)
+        public static void ConvertTo(this List<RH_Geo.Plane> source, out List<Euc3D.Frame> target)
         {
             target = new List<Euc3D.Frame>(source.Count);
 
             for (int i = 0; i < source.Count; i++)
             {
-                source[i].CastTo(out Euc3D.Frame tmp);
+                source[i].ConvertTo(out Euc3D.Frame tmp);
                 target.Add(tmp);
             }
         }
